@@ -1,14 +1,16 @@
 class AttendancesController < ApplicationController
-  def new; end
+  def new
+    @form = AttendanceUploadForm.new
+  end
 
   def create
-    if params[:csv_file].present?
-      csv_data = params[:csv_file].read
-      analyzer = AttendanceAnalyzerService.new(csv_data)
-      @results = analyzer.analyze
-      render new_attendance_path, notice: 'CSVファイルの解析が完了しました'
+    @form = AttendanceUploadForm.new(csv_file: params[:csv_file])
+
+    if @form.valid?
+      @results = @form.analyze
+      render :new
     else
-      redirect_to root_path, notice: 'CSVファイルが必要です'
+      render :new, status: :unprocessable_entity
     end
   end
 end

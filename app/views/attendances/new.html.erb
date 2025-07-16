@@ -1,11 +1,17 @@
 <h1>勤怠CSVアップロード</h1>
 
 <%= form_with url: attendances_path, method: :post, local: true, data: { turbo: false }, html: { multipart: true } do |f| %>
+  <% if @form.errors.any? %>
+    <ul style="color: red;">
+      <% @form.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <%= file_field_tag :csv_file %>
   <%= submit_tag "アップロード" %>
 <% end %>
-
-<%= flash[:notice] %>
 
 <% if @results.present? %>
   <h2>集計結果</h2>
