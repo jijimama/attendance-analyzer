@@ -31,3 +31,14 @@
     </tbody>
   </table>
 <% end %>
+
+<% if @form.row_errors.present? %>
+  <div style="color: red;">
+    <h3>読み込めなかった行（スキップされました）:</h3>
+    <ul>
+      <% @form.row_errors.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

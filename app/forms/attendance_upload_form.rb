@@ -14,8 +14,13 @@ class AttendanceUploadForm
 
   def analyze
     csv_data = csv_file.read
-    csv_file.rewind # 再度読めるように戻す
-    AttendanceAnalyzerService.new(csv_data).analyze
+    csv_file.rewind
+    @analyzer = AttendanceAnalyzerService.new(csv_data)
+    @analyzer.analyze
+  end
+
+  def row_errors
+    @analyzer&.errors || []
   end
 
   private
