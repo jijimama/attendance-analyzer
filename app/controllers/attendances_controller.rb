@@ -8,6 +8,7 @@ class AttendancesController < ApplicationController
 
     if @form.valid?
       @results = @form.analyze
+      @monthly_summary = @form.monthly_summary
       render :new
     else
       render :new, status: :unprocessable_entity

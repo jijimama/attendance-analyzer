@@ -23,6 +23,11 @@ class AttendanceUploadForm
     @analyzer&.errors || []
   end
 
+  def monthly_summary
+    return {} unless @analyzer
+    @analyzer.monthly_summary
+  end
+
   private
 
   def valid_csv_format

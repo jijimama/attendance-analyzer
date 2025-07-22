@@ -35,6 +35,13 @@ class AttendanceAnalyzerService
     end.compact
   end
 
+  def monthly_summary
+    analyze_data = analyze
+  
+    analyze_data.group_by { |r| Date.parse(r[:date]).strftime('%Y-%m') }
+                .transform_values { |rows| rows.sum { |r| r[:hours] } }
+  end
+
   private
 
   def valid_headers?

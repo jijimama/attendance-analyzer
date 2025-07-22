@@ -42,3 +42,20 @@
     </ul>
   </div>
 <% end %>
+
+<% if @monthly_summary.present? %>
+  <h2>月別労働時間合計</h2>
+  <table>
+    <thead>
+      <tr><th>年月</th><th>合計労働時間</th></tr>
+    </thead>
+    <tbody>
+      <% @monthly_summary.each do |month, total| %>
+        <tr>
+          <td><%= month %></td>
+          <td><%= total.round(2) %> 時間</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
