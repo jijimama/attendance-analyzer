@@ -10,6 +10,7 @@ class AttendancesController < ApplicationController
       @results = @form.analyze
       @monthly_summary = @form.monthly_summary
       @monthly_average = @form.monthly_average
+      @monthly_attendance_days = @form.monthly_attendance_days
       render :new
     else
       render :new, status: :unprocessable_entity

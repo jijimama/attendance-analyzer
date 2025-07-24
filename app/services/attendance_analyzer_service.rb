@@ -58,6 +58,17 @@ class AttendanceAnalyzerService
     end
   end
 
+  def monthly_attendance_days
+    analyze_data = analyze
+  
+    grouped = analyze_data.group_by { |r| Date.parse(r[:date]).strftime('%Y-%m') }
+  
+    grouped.transform_values do |rows|
+      unique_days = rows.map { |r| r[:date] }.uniq
+      unique_days.count
+    end
+  end
+
   private
 
   def valid_headers?

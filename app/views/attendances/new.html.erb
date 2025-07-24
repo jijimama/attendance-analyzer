@@ -60,3 +60,20 @@
     </tbody>
   </table>
 <% end %>
+
+<% if @monthly_attendance_days.present? %>
+  <h2>月別 出勤日数</h2>
+  <table>
+    <thead>
+      <tr><th>年月</th><th>出勤日数</th></tr>
+    </thead>
+    <tbody>
+      <% @monthly_attendance_days.each do |month, days| %>
+        <tr>
+          <td><%= month %></td>
+          <td><%= days %> 日</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
