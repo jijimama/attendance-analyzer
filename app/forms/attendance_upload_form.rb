@@ -28,6 +28,11 @@ class AttendanceUploadForm
     @analyzer.monthly_summary
   end
 
+  def monthly_average
+    return {} unless @analyzer
+    @analyzer.monthly_average
+  end
+
   private
 
   def valid_csv_format

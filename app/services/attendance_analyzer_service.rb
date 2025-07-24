@@ -42,6 +42,22 @@ class AttendanceAnalyzerService
                 .transform_values { |rows| rows.sum { |r| r[:hours] } }
   end
 
+  def monthly_average
+    analyze_data = analyze
+  
+    grouped = analyze_data.group_by { |r| Date.parse(r[:date]).strftime('%Y-%m') }
+  
+    grouped.transform_values do |rows|
+      total = rows.sum { |r| r[:hours] }
+      count = rows.size
+      average = count > 0 ? (total / count.to_f).round(2) : 0
+      {
+        total: total.round(2),
+        average: average
+      }
+    end
+  end
+
   private
 
   def valid_headers?

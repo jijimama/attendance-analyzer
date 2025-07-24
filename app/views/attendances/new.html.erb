@@ -43,17 +43,18 @@
   </div>
 <% end %>
 
-<% if @monthly_summary.present? %>
-  <h2>月別労働時間合計</h2>
+<% if @monthly_average.present? %>
+  <h2>月別労働時間（合計・平均）</h2>
   <table>
     <thead>
-      <tr><th>年月</th><th>合計労働時間</th></tr>
+      <tr><th>年月</th><th>合計労働時間</th><th>平均労働時間</th></tr>
     </thead>
     <tbody>
-      <% @monthly_summary.each do |month, total| %>
+      <% @monthly_average.each do |month, data| %>
         <tr>
           <td><%= month %></td>
-          <td><%= total.round(2) %> 時間</td>
+          <td><%= data[:total] %> 時間</td>
+          <td><%= data[:average] %> 時間</td>
         </tr>
       <% end %>
     </tbody>
