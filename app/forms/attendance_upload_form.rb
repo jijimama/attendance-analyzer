@@ -38,6 +38,11 @@ class AttendanceUploadForm
     @analyzer.monthly_attendance_days
   end
 
+  def monthly_overtime_hours
+    return {} unless @analyzer
+    @analyzer.monthly_overtime_hours
+  end
+
   private
 
   def valid_csv_format

@@ -2,6 +2,7 @@ require 'csv'
 
 class AttendanceAnalyzerService
   REQUIRED_HEADERS = %w[date start finish]
+  LEGAL_WORK_HOURS = 8.0
 
   attr_reader :errors
 
@@ -21,12 +22,14 @@ class AttendanceAnalyzerService
         start_time = Time.parse(row['start'])
         end_time = Time.parse(row['finish'])
         duration = ((end_time - start_time) / 3600).round(2)
+        overtime = [duration - LEGAL_WORK_HOURS, 0].max.round(2)
 
         {
           date: row['date'],
           start: start_time.strftime('%H:%M'),
           end: end_time.strftime('%H:%M'),
-          hours: duration
+          hours: duration,
+          overtime: overtime
         }
       rescue => e
         @errors << "第#{index + 2}行目でエラー: #{e.message}（内容: #{row.to_h}）"
@@ -67,6 +70,11 @@ class AttendanceAnalyzerService
       unique_days = rows.map { |r| r[:date] }.uniq
       unique_days.count
     end
+  end
+
+  def monthly_overtime_hours
+    analyze.group_by { |r| Date.parse(r[:date]).strftime('%Y-%m') }
+           .transform_values { |rows| rows.sum { |r| r[:overtime] } }
   end
 
   private
